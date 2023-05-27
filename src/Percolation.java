@@ -20,6 +20,13 @@ public class Percolation {
 
         wqu = new WeightedQuickUnionUF(n);
         grid = new boolean[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                grid[i][j] = false;
+            }
+        }
+
         size = n;
         maxIndex = n - 1;
         openSites = 0;
