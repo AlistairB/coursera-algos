@@ -1,3 +1,5 @@
+package percolation;
+
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -33,7 +35,7 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row <= 0 || row > size || col <= 0 || col > size)
+        if (row < 1 || row > size || col < 1 || col > size)
             throw new IllegalArgumentException();
 
         grid[row - 1][col - 1] = true;
@@ -59,7 +61,7 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if (row <= 0 || row > size || col <= 0 || col > size)
+        if (row < 1 || row > size || col < 1 || col > size)
             throw new IllegalArgumentException();
 
         return gridVal(row, col);
@@ -67,7 +69,7 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if (row <= 0 || row > size || col <= 0 || col > size)
+        if (row < 1 || row > size || col < 1 || col > size)
             throw new IllegalArgumentException();
 
         int value = row * col;
