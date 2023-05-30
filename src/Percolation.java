@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 // https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php
 
 public class Percolation {
-
     private WeightedQuickUnionUF wqu;
     private boolean[][] grid;
     private int maxIndex;
@@ -34,6 +33,9 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
+        if (row <= 0 || row > size || col <= 0 || col > size)
+            throw new IllegalArgumentException();
+
         grid[row - 1][col - 1] = true;
         int value = row * col;
 
@@ -57,11 +59,17 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        if (row <= 0 || row > size || col <= 0 || col > size)
+            throw new IllegalArgumentException();
+
         return gridVal(row, col);
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        if (row <= 0 || row > size || col <= 0 || col > size)
+            throw new IllegalArgumentException();
+
         int value = row * col;
 
         for (int i = 1; i <= size; i++) {
