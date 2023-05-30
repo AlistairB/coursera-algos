@@ -58,12 +58,12 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return 0;
+        return mean() - (2 * stddev());
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return 0;
+        return mean() + (2 * stddev());
     }
 
     // test client (see below)
