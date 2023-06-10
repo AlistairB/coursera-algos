@@ -19,7 +19,7 @@ public class Percolation {
         if (n <= 0)
             throw new IllegalArgumentException();
 
-        wqu = new WeightedQuickUnionUF(n);
+        wqu = new WeightedQuickUnionUF(n * n);
         grid = new boolean[n][n];
 
         for (int i = 0; i < n; i++) {
@@ -39,7 +39,7 @@ public class Percolation {
             throw new IllegalArgumentException();
 
         grid[row - 1][col - 1] = true;
-        int value = row * col;
+        int value = getValue(row, col);
 
         connectIfOpenAndExists(value, row + 1, col);
         connectIfOpenAndExists(value, row - 1, col);
@@ -49,13 +49,17 @@ public class Percolation {
         openSites++;
     }
 
+    private int getValue(int row, int col) {
+        return (row * col) - 1;
+    }
+
     private boolean gridVal(int row, int col) {
         return grid[row - 1][col - 1];
     }
 
     private void connectIfOpenAndExists(int source, int row, int col) {
-        if (row >= 0 && row <= maxIndex && col >= 0 && col <= maxIndex && gridVal(row, col)) {
-            wqu.union(source, row * col);
+        if (row > 0 && row <= size && col > 0 && col <= size && gridVal(row, col)) {
+            wqu.union(source, getValue(row, col));
         }
     }
 
@@ -72,9 +76,11 @@ public class Percolation {
         if (row < 1 || row > size || col < 1 || col > size)
             throw new IllegalArgumentException();
 
-        int value = row * col;
+        if (!isOpen(row, col)) return false;
 
-        for (int i = 1; i <= size; i++) {
+        int value = getValue(row, col);
+
+        for (int i = 0; i <= maxIndex; i++) {
             if (wqu.connected(value, i)) return true;
         }
 
