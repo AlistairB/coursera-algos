@@ -32,6 +32,24 @@ class PercolationTest {
     }
 
     @Test
+    void diagonal() {
+        var perc = new Percolation(3);
+
+        assertFalse(perc.percolates());
+
+        perc.open(1, 1);
+        perc.open(2, 1);
+        perc.open(2, 2);
+        perc.open(2, 3);
+
+        assertFalse(perc.percolates());
+
+        perc.open(3, 3);
+
+        assertTrue(perc.percolates());
+    }
+
+    @Test
     void manyByManyCell() {
         var perc = new Percolation(8);
 
