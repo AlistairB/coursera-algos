@@ -81,7 +81,7 @@ public class Percolation {
         int value = getValue(row, col);
 
         for (int i = 0; i <= maxIndex; i++) {
-            if (wqu.connected(value, i)) return true;
+            if (wqu.find(value) == wqu.find(i)) return true;
         }
 
         return false;

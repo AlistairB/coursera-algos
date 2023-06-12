@@ -1,7 +1,9 @@
 package percolation;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
@@ -26,11 +28,10 @@ public class PercolationStats {
     private int runPercolation(int n) {
         var run = new Percolation(n);
 
-        var currentThread = ThreadLocalRandom.current();
         do
         {
-            var toOpenRow = currentThread.nextInt(1, n);
-            var toOpenCol = currentThread.nextInt(1, n);
+            var toOpenRow = StdRandom.uniformInt(1, n + 1);
+            var toOpenCol = StdRandom.uniformInt(1, n + 1);
 
             if (run.isOpen(toOpenRow, toOpenCol)) continue;
 
@@ -41,21 +42,14 @@ public class PercolationStats {
     }
 
     // sample mean of percolation threshold
-    public double mean() {
-        return ((double) Arrays.stream(this.percolationThreshold).sum()) / this.trials;
+    public double mean()
+    {
+        return StdStats.mean(this.percolationThreshold);
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        double mean = mean();
-
-        // calculate the standard deviation
-        double standardDeviation = 0.0;
-        for (double num : this.percolationThreshold) {
-            standardDeviation += Math.pow(num - mean, 2);
-        }
-
-        return Math.sqrt(standardDeviation / this.n);
+        return StdStats.stddev(this.percolationThreshold);
     }
 
     // low endpoint of 95% confidence interval
@@ -70,7 +64,22 @@ public class PercolationStats {
 
     // test client (see below)
     public static void main(String[] args) {
+        int gridSize = Integer.parseInt(args[0]);
+        int trials = Integer.parseInt(args[1]);
 
+        var percStats = new PercolationStats(gridSize, trials);
+
+        StdOut.print("mean: ");
+        StdOut.println(percStats.mean());
+
+        StdOut.print("stddev: ");
+        StdOut.println(percStats.stddev());
+
+        StdOut.print("95% low: ");
+        StdOut.println(percStats.confidenceLo());
+
+        StdOut.print("95% high: ");
+        StdOut.println(percStats.confidenceHi());
     }
 
 }
