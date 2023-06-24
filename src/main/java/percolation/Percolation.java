@@ -7,7 +7,9 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private WeightedQuickUnionUF wqu;
     private boolean[][] grid;
-    private int maxIndex;
+
+    private int top;
+    private int bottom;
     private int size;
 
     private int openSites;
@@ -17,12 +19,22 @@ public class Percolation {
         if (n <= 0)
             throw new IllegalArgumentException();
 
-        wqu = new WeightedQuickUnionUF((n * n));
+        wqu = new WeightedQuickUnionUF((n * n) + 2);
 
-        // connect an extra bottom row
-//        for (int i = n; i < (n + n); i++) {
-//            wqu.union(i, i + 1);
-//        }
+        this.top = (n * n);
+        this.bottom = (n * n) + 1;
+        // connect top to the top row
+        for (int i = 0; i < n; i++) {
+            wqu.union(this.top, i);
+        }
+
+        // connect bottom to the bottom row
+        int bottomStartIndex = (n * n) - n;
+        int endBottomIndex = bottomStartIndex + n - 1;
+
+        for (int i = bottomStartIndex; i <= endBottomIndex; i++) {
+            wqu.union(i, this.bottom);
+        }
 
         grid = new boolean[n][n];
 
@@ -33,7 +45,6 @@ public class Percolation {
         }
 
         size = n;
-        maxIndex = n - 1;
         openSites = 0;
     }
 
@@ -67,12 +78,7 @@ public class Percolation {
 
     private void connectIfOpenAndExists(int source, int row, int col) {
         if (row > 0 && row <= size && col > 0 && col <= size && gridVal(row, col)) {
-            int connectTo = getValue(row, col);
-
-            if (connectTo < source)
-                wqu.union(connectTo, source);
-            else
-                wqu.union(source, connectTo);
+            wqu.union(getValue(row, col), source);
         }
     }
 
@@ -93,7 +99,7 @@ public class Percolation {
 
         int value = getValue(row, col);
 
-        return wqu.find(value) < this.size;
+        return wqu.find(value) == wqu.find(this.top);
 
 //        for (int i = 0; i <= maxIndex; i++) {
 //            if (wqu.find(value) == wqu.find(i)) return true;
@@ -109,11 +115,10 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        for (int i = 1; i <= size; i++) {
-            if (isFull(size, i)) return true;
-        }
+        // needed to handle single cell case
+        if (openSites == 0) return false;
 
-        return false;
+        return wqu.find(this.bottom) == wqu.find(this.top);
     }
 
 //    private void getGrid() {
