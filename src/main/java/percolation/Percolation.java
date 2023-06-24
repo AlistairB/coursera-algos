@@ -17,7 +17,13 @@ public class Percolation {
         if (n <= 0)
             throw new IllegalArgumentException();
 
-        wqu = new WeightedQuickUnionUF(n * n);
+        wqu = new WeightedQuickUnionUF((n * n));
+
+        // connect an extra bottom row
+//        for (int i = n; i < (n + n); i++) {
+//            wqu.union(i, i + 1);
+//        }
+
         grid = new boolean[n][n];
 
         for (int i = 0; i < n; i++) {
@@ -61,7 +67,12 @@ public class Percolation {
 
     private void connectIfOpenAndExists(int source, int row, int col) {
         if (row > 0 && row <= size && col > 0 && col <= size && gridVal(row, col)) {
-            wqu.union(source, getValue(row, col));
+            int connectTo = getValue(row, col);
+
+            if (connectTo < source)
+                wqu.union(connectTo, source);
+            else
+                wqu.union(source, connectTo);
         }
     }
 
@@ -82,11 +93,13 @@ public class Percolation {
 
         int value = getValue(row, col);
 
-        for (int i = 0; i <= maxIndex; i++) {
-            if (wqu.find(value) == wqu.find(i)) return true;
-        }
+        return wqu.find(value) < this.size;
 
-        return false;
+//        for (int i = 0; i <= maxIndex; i++) {
+//            if (wqu.find(value) == wqu.find(i)) return true;
+//        }
+//
+//        return false;
     }
 
     // returns the number of open sites
