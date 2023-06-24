@@ -1,7 +1,5 @@
 package percolation;
 
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 // https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php
@@ -105,23 +103,23 @@ public class Percolation {
         return false;
     }
 
-    public void getGrid() {
-        int rows_length = this.grid.length;
-        int columns_length = this.grid[0].length;
-
-        for (int i = 0; i < rows_length; i++) {
-            for (int j = 0; j < columns_length; j++) {
-
-                if (this.grid[i][j]) {
-                    System.out.print("X");
-                } else {
-                    System.out.print(" ");
-                }
-
-            }
-            System.out.println();
-        }
-    }
+//    private void getGrid() {
+//        int rows_length = this.grid.length;
+//        int columns_length = this.grid[0].length;
+//
+//        for (int i = 0; i < rows_length; i++) {
+//            for (int j = 0; j < columns_length; j++) {
+//
+//                if (this.grid[i][j]) {
+//                    System.out.print("X");
+//                } else {
+//                    System.out.print(" ");
+//                }
+//
+//            }
+//            System.out.println();
+//        }
+//    }
 
     // test client (optional)
     public static void main(String[] args) {
