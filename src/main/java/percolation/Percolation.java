@@ -100,12 +100,6 @@ public class Percolation {
         int value = getValue(row, col);
 
         return wqu.find(value) == wqu.find(this.top);
-
-//        for (int i = 0; i <= maxIndex; i++) {
-//            if (wqu.find(value) == wqu.find(i)) return true;
-//        }
-//
-//        return false;
     }
 
     // returns the number of open sites
