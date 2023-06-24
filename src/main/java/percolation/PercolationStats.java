@@ -76,11 +76,7 @@ public class PercolationStats {
         StdOut.print("stddev ");
         StdOut.println(percStats.stddev());
 
-        StdOut.print("95% low: ");
-        StdOut.println(percStats.confidenceLo());
-
-        StdOut.print("95% high: ");
-        StdOut.println(percStats.confidenceHi());
+        StdOut.println("95% confidence interval = " + String.format("[%f, %f]", percStats.confidenceLo(), percStats.confidenceHi()));
     }
 
 }
