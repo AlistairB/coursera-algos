@@ -1,21 +1,24 @@
 package percolation;
 
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
+
 
 public class PercolationStats {
 
     private int[] percolationThreshold;
 
-    private int n;
+    private int size;
     private int trials;
+
+    private int cellCount;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
-        this.n = n;
+        this.size = n;
         this.trials = trials;
+        this.cellCount = n * n;
         percolationThreshold = new int[trials];
 
         for (int i = 0; i < trials; i++) {
@@ -33,8 +36,6 @@ public class PercolationStats {
             var toOpenRow = StdRandom.uniformInt(1, n + 1);
             var toOpenCol = StdRandom.uniformInt(1, n + 1);
 
-            if (run.isOpen(toOpenRow, toOpenCol)) continue;
-
             run.open(toOpenRow, toOpenCol);
         } while (!run.percolates());
 
@@ -44,12 +45,12 @@ public class PercolationStats {
     // sample mean of percolation threshold
     public double mean()
     {
-        return StdStats.mean(this.percolationThreshold);
+        return StdStats.mean(this.percolationThreshold) / cellCount;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        return StdStats.stddev(this.percolationThreshold);
+        return StdStats.stddev(this.percolationThreshold) / cellCount;
     }
 
     // low endpoint of 95% confidence interval

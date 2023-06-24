@@ -38,6 +38,10 @@ public class Percolation {
         if (row < 1 || row > size || col < 1 || col > size)
             throw new IllegalArgumentException();
 
+        // if we are already open, then don't want to do anything
+        if (grid[row - 1][col - 1])
+            return;
+
         grid[row - 1][col - 1] = true;
         int value = getValue(row, col);
 
@@ -50,7 +54,7 @@ public class Percolation {
     }
 
     private int getValue(int row, int col) {
-        return (row * col) - 1;
+        return ((row-1) * this.size) + (col - 1);
     }
 
     private boolean gridVal(int row, int col) {
@@ -99,6 +103,24 @@ public class Percolation {
         }
 
         return false;
+    }
+
+    public void getGrid() {
+        int rows_length = this.grid.length;
+        int columns_length = this.grid[0].length;
+
+        for (int i = 0; i < rows_length; i++) {
+            for (int j = 0; j < columns_length; j++) {
+
+                if (this.grid[i][j]) {
+                    System.out.print("X");
+                } else {
+                    System.out.print(" ");
+                }
+
+            }
+            System.out.println();
+        }
     }
 
     // test client (optional)
