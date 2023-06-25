@@ -84,4 +84,21 @@ class PercolationTest {
 
         assertTrue(perc.percolates());
     }
+
+    @Test
+    void noBackWash() {
+        var perc = new Percolation(3);
+
+        assertFalse(perc.percolates());
+
+        perc.open(1, 1);
+        perc.open(2, 1);
+        perc.open(3, 1);
+
+        assertTrue(perc.percolates());
+
+        perc.open(3, 3);
+
+        assertFalse(perc.isFull(3, 3));
+    }
 }
