@@ -6,6 +6,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private WeightedQuickUnionUF wqu;
+    private WeightedQuickUnionUF iFwqu;
     private boolean[][] grid;
     private int top;
     private int bottom;
@@ -33,6 +34,13 @@ public class Percolation {
 
         for (int i = bottomStartIndex; i <= endBottomIndex; i++) {
             wqu.union(i, this.bottom);
+        }
+
+        iFwqu = new WeightedQuickUnionUF((n * n) + 1);
+
+        // connect top to the top row
+        for (int i = 0; i < n; i++) {
+            iFwqu.union(this.top, i);
         }
 
         grid = new boolean[n][n];
@@ -77,7 +85,9 @@ public class Percolation {
 
     private void connectIfOpenAndExists(int source, int row, int col) {
         if (row > 0 && row <= size && col > 0 && col <= size && gridVal(row, col)) {
-            wqu.union(getValue(row, col), source);
+            int value = getValue(row, col);
+            wqu.union(value, source);
+            iFwqu.union(value, source);
         }
     }
 
@@ -98,7 +108,7 @@ public class Percolation {
 
         int value = getValue(row, col);
 
-        return wqu.find(value) == wqu.find(this.top);
+        return iFwqu.find(value) == iFwqu.find(this.top);
     }
 
     // returns the number of open sites
