@@ -73,10 +73,10 @@ public class PercolationStats {
 
         var percStats = new PercolationStats(gridSize, trials);
 
-        StdOut.print("mean ");
+        StdOut.print("mean = ");
         StdOut.println(percStats.mean());
 
-        StdOut.print("stddev ");
+        StdOut.print("stddev = ");
         StdOut.println(percStats.stddev());
 
         StdOut.println("95% confidence interval = " + String.format("[%f, %f]", percStats.confidenceLo(), percStats.confidenceHi()));
