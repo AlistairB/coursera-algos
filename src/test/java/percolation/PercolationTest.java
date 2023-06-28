@@ -65,6 +65,21 @@ class PercolationTest {
     }
 
     @Test
+    void hmm2() {
+        var perc = new Percolation(3);
+
+        perc.open(1, 2);
+        perc.open(2, 2);
+        perc.open(3, 1);
+
+        assertFalse(perc.percolates());
+
+        perc.open(2, 1);
+
+        assertTrue(perc.percolates());
+    }
+
+    @Test
     void manyByManyCell() {
         var perc = new Percolation(8);
 
