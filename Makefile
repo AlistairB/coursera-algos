@@ -3,4 +3,5 @@
 percolation:
 	./script/build.sh percolation
 
-#percolation-run:
+queue:
+	./script/build.sh queue
