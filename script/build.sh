@@ -13,5 +13,5 @@ cp -a "./src/main/java/$module_name/" "./tmp/"
 find ./tmp -type f -exec sed -i '1d' "{}" \;
 
 # zip
-rm "./tmp/$module_name.zip"
+rm -f "./tmp/$module_name.zip"
 zip -j -r "./tmp/$module_name.zip" "./tmp/$module_name/"

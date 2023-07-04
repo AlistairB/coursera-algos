@@ -1,6 +1,7 @@
 package queue;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
@@ -36,6 +37,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the front
     public void addFirst(Item item) {
+        if (item == null)
+            throw new IllegalArgumentException();
+
         var newFirst = new Node(item);
 
         if (!isEmpty()) {
@@ -53,6 +57,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the back
     public void addLast(Item item) {
+        if (item == null)
+            throw new IllegalArgumentException();
+
         var newLast = new Node(item);
 
         if (!isEmpty()) {
@@ -68,7 +75,7 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         if (isEmpty())
-            return null;
+            throw new NoSuchElementException();
 
         var oldFirst = first;
         first = oldFirst.next;
@@ -86,7 +93,7 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the back
     public Item removeLast() {
         if (isEmpty())
-            return null;
+            throw new NoSuchElementException();
 
         var oldLast = last;
         last = oldLast.prev;
@@ -103,7 +110,36 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return null;
+        return new DequeIterator(this);
+    }
+
+    private class DequeIterator implements Iterator<Item> {
+        Node current;
+
+        // initialize pointer to head of the list for iteration
+        public DequeIterator(Deque<Item> deque)
+        {
+            current = deque.first;
+        }
+
+        // returns false if next element does not exist
+        public boolean hasNext()
+        {
+            return current != null && current.next != null;
+        }
+
+        // return current data and update pointer
+        public Item next()
+        {
+            current = current.next;
+            return current.value;
+        }
+
+        // implement if needed
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
     }
 
     // unit testing (required)
