@@ -4,9 +4,11 @@ import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private static class Node<Item>{
+    private class Node{
         Item value;
         Node next;
+
+        Node prev;
 
         private Node(Item item) {
             this.value = item;
@@ -39,24 +41,64 @@ public class Deque<Item> implements Iterable<Item> {
         if (!isEmpty()) {
             var oldFirst = first;
             newFirst.next = oldFirst;
+            oldFirst.prev = newFirst;
+        } else {
+            last = newFirst;
         }
 
         first = newFirst;
+
+        length++;
     }
 
     // add the item to the back
     public void addLast(Item item) {
+        var newLast = new Node(item);
 
+        if (!isEmpty()) {
+            last.next = newLast;
+            newLast.prev = last;
+        } else {
+            first = newLast;
+        }
+
+        length++;
     }
 
     // remove and return the item from the front
     public Item removeFirst() {
-        return null;
+        if (isEmpty())
+            return null;
+
+        var oldFirst = first;
+        first = oldFirst.next;
+        first.prev = null;
+
+        if (length == 1) {
+            last = null;
+        }
+
+        length--;
+
+        return oldFirst.value;
     }
 
     // remove and return the item from the back
     public Item removeLast() {
-        return null;
+        if (isEmpty())
+            return null;
+
+        var oldLast = last;
+        last = oldLast.prev;
+        last.next = null;
+
+        if (length == 1) {
+            first = null;
+        }
+
+        length--;
+
+        return oldLast.value;
     }
 
     // return an iterator over items in order from front to back
