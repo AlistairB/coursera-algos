@@ -3,6 +3,7 @@ package queue;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
@@ -11,7 +12,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int currentIndex;
 
     // construct an empty randomized queue
-    @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         capacity = 2;
         currentIndex = 0;
@@ -37,7 +37,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[currentIndex++] = item;
     }
 
-    @SuppressWarnings("unchecked")
     private void scaleUpCapacity() {
         var newCapacity = capacity * 2;
         var newQueue = (Item[]) new Object[newCapacity];
@@ -50,7 +49,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         capacity = newCapacity;
     }
 
-    @SuppressWarnings("unchecked")
     private void scaleDownCapacity() {
         var newCapacity = capacity / 2;
         var newQueue = (Item[]) new Object[newCapacity];
@@ -93,7 +91,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private class RandomizedQueueIterator implements Iterator<Item> {
         RandomizedQueue<Item> rq;
 
-        @SuppressWarnings("unchecked")
         // initialize pointer to head of the list for iteration
         public RandomizedQueueIterator(RandomizedQueue<Item> inRq)
         {
@@ -116,6 +113,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // return current data and update pointer
         public Item next()
         {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
             return rq.dequeue();
         }
 

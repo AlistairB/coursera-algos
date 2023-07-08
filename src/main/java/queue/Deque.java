@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private class Node{
+    private class Node {
         Item value;
         Node next;
 
@@ -131,6 +131,9 @@ public class Deque<Item> implements Iterable<Item> {
         // return current data and update pointer
         public Item next()
         {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
             current = current.next;
             return current.value;
         }

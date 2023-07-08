@@ -9,7 +9,7 @@ public class Permutation {
 
         var rq = new RandomizedQueue<String>();
 
-        while (StdIn.hasNextChar()) {
+        while (!StdIn.isEmpty()) {
             var str = StdIn.readString();
             rq.enqueue(str);
         }
