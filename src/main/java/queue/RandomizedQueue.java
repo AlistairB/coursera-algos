@@ -8,11 +8,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
     private int capacity;
+    private int currentIndex;
 
     // construct an empty randomized queue
     @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         capacity = 2;
+        currentIndex = 0;
         queue = (Item[]) new Object[capacity];
     }
 
@@ -32,7 +34,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             scaleUpCapacity();
         }
 
-        queue[size()] = item;
+        queue[currentIndex++] = item;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,11 +61,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         queue = newQueue;
         capacity = newCapacity;
+        currentIndex = newCapacity - 1;
     }
 
     // remove and return a random item
     public Item dequeue() {
-        var toRemoveIndex = StdRandom.uniformInt(0, size() - 1);
+        var toRemoveIndex = StdRandom.uniformInt(0, currentIndex - 1);
 
         var removed = queue[toRemoveIndex];
         queue[toRemoveIndex] = null;
