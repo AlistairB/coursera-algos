@@ -62,12 +62,14 @@ public class Deque<Item> implements Iterable<Item> {
 
         var newLast = new Node(item);
 
-        if (!isEmpty()) {
+        if (isEmpty()) {
+            first = newLast;
+        } else {
             last.next = newLast;
             newLast.prev = last;
-        } else {
-            first = newLast;
         }
+
+        last = newLast;
 
         length++;
     }
@@ -78,12 +80,14 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
 
         var oldFirst = first;
-        first = oldFirst.next;
-        first.prev = null;
 
-        if (length == 1) {
+        first = oldFirst.next;
+
+        // if we are down to 0 elements, we cannot set anything
+        if (first != null)
+            first.prev = null;
+        else
             last = null;
-        }
 
         length--;
 
@@ -97,11 +101,17 @@ public class Deque<Item> implements Iterable<Item> {
 
         var oldLast = last;
         last = oldLast.prev;
-        last.next = null;
 
-        if (length == 1) {
+        // if we are down to 0 elements, we cannot set anything
+        if (last != null)
+            last.next = null;
+        else
             first = null;
-        }
+
+//        // if we are down to 1, then the new last is also the first
+//        if (length == 1) {
+//            first = last;
+//        }
 
         length--;
 
@@ -125,7 +135,7 @@ public class Deque<Item> implements Iterable<Item> {
         // returns false if next element does not exist
         public boolean hasNext()
         {
-            return current != null && current.next != null;
+            return current != null;
         }
 
         // return current data and update pointer
@@ -134,8 +144,10 @@ public class Deque<Item> implements Iterable<Item> {
             if (!hasNext())
                 throw new NoSuchElementException();
 
+            var oldCurrent = current;
+
             current = current.next;
-            return current.value;
+            return oldCurrent.value;
         }
 
         // implement if needed
