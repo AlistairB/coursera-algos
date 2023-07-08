@@ -84,29 +84,36 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        return null;
+        return new RandomizedQueueIterator(this);
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
-        Deque.Node current;
+        RandomizedQueue<Item> rq;
 
+        @SuppressWarnings("unchecked")
         // initialize pointer to head of the list for iteration
-        public DequeIterator(Deque<Item> deque)
+        public RandomizedQueueIterator(RandomizedQueue<Item> inRq)
         {
-            current = deque.first;
+            rq = new RandomizedQueue<>();
+
+            for (int i = 0; i < inRq.queue.length; i++) {
+                var item = inRq.queue[i];
+
+                if (item != null)
+                    rq.enqueue(item);
+            }
         }
 
         // returns false if next element does not exist
         public boolean hasNext()
         {
-            return current != null && current.next != null;
+            return !rq.isEmpty();
         }
 
         // return current data and update pointer
         public Item next()
         {
-            current = current.next;
-            return current.value;
+            return rq.dequeue();
         }
 
         // implement if needed
