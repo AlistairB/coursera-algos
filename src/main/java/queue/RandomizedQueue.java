@@ -9,7 +9,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
 
-    private int[] populatedIndexes;
     private int capacity;
 
     private int count;
@@ -39,46 +38,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new IllegalArgumentException();
 
         if (currentIndex == capacity) {
-            scaleUpCapacity();
+            resizeTo(capacity * 2);
         }
 
         queue[currentIndex++] = item;
         count++;
     }
 
-    private void scaleUpCapacity() {
-        var newCapacity = capacity * 2;
+    private void resizeTo(int newCapacity) {
         var newQueue = (Item[]) new Object[newCapacity];
 
-        var insertIndex = 0;
-        for (var i = 0; i < queue.length; i++) {
-            var toCopyItem = queue[i];
-
-            if (toCopyItem != null) {
-                newQueue[insertIndex++] = toCopyItem;
-            }
+        for (var i = 0; i < count; i++) {
+            newQueue[i] = queue[i];
         }
 
         queue = newQueue;
         capacity = newCapacity;
-    }
-
-    private void scaleDownCapacity() {
-        var newCapacity = capacity / 2;
-        var newQueue = (Item[]) new Object[newCapacity];
-
-        var insertIndex = 0;
-        for (var i = 0; i < queue.length; i++) {
-            var toCopyItem = queue[i];
-
-            if (toCopyItem != null) {
-                newQueue[insertIndex++] = toCopyItem;
-            }
-        }
-
-        queue = newQueue;
-        capacity = newCapacity;
-        currentIndex = newCapacity - 1;
     }
 
     // remove and return a random item
@@ -90,16 +65,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         var removed = queue[toRemoveIndex];
 
-        if (removed == null)
-            return dequeue();
-
-        queue[toRemoveIndex] = null;
-
-        if (size() < (capacity / 4)) {
-            scaleDownCapacity();
+        // if we will have more than 1 item after the removal
+        // and we are not removing the item at the end..
+        // then copy the last item into the removed item's slot
+        if (count > 2 && toRemoveIndex != (currentIndex - 1)) {
+            var endItem = queue[currentIndex - 1];
+            queue[toRemoveIndex] = endItem;
+            queue[currentIndex - 1] = null;
+        } else {
+            queue[toRemoveIndex] = null;
         }
 
+        currentIndex--;
         count--;
+
+        if (size() < (capacity / 4)) {
+            resizeTo(capacity / 2);
+        }
 
         return removed;
     }
@@ -110,9 +92,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
 
         var toGetIndex = StdRandom.uniformInt(0, currentIndex);
-        var item = queue[toGetIndex];
-        if (item == null)
-            return sample();
 
         return queue[toGetIndex];
     }
@@ -133,14 +112,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             currentIndex = 0;
             var rq = new RandomizedQueue<Item>();
 
-            for (int i = 0; i < inRq.queue.length; i++) {
+            for (int i = 0; i < inRq.count; i++) {
                 var item = inRq.queue[i];
 
-                if (item != null)
-                    rq.enqueue(item);
+                rq.enqueue(item);
             }
 
-            queue = (Item[]) new Object[rq.count];
+            queue = (Item[]) new Object[inRq.count];
             var index = 0;
 
             while (!rq.isEmpty()) {

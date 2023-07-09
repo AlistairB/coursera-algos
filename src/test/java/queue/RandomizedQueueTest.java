@@ -68,4 +68,30 @@ class RandomizedQueueTest {
 
         assertEquals(1, queue.size());
     }
+
+    @Test
+    void anotherTest() {
+        var queue = new RandomizedQueue<Integer>();
+
+        queue.enqueue(554);
+        queue.enqueue(121);
+        queue.enqueue(983);
+        queue.sample();
+        queue.enqueue(729);
+        assertNotNull(queue.dequeue());
+    }
+
+    @Test
+    void iteratorNotNull() {
+        var queue = new RandomizedQueue<Integer>();
+
+        queue.enqueue(3);
+        queue.enqueue(342);
+
+        var it = queue.iterator();
+
+        while (it.hasNext()) {
+            assertNotNull(it.next());
+        }
+    }
 }
