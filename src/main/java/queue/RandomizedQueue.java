@@ -9,32 +9,36 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
     private int capacity;
+
+    private int count;
     private int currentIndex;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
         capacity = 2;
         currentIndex = 0;
+        count = 0;
         queue = (Item[]) new Object[capacity];
     }
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return size() > 0;
+        return size() == 0;
     }
 
     // return the number of items on the randomized queue
     public int size() {
-        return queue.length;
+        return count;
     }
 
     // add the item
     public void enqueue(Item item) {
-        if (size() == capacity) {
+        if (currentIndex == capacity) {
             scaleUpCapacity();
         }
 
         queue[currentIndex++] = item;
+        count++;
     }
 
     private void scaleUpCapacity() {
@@ -64,7 +68,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        var toRemoveIndex = StdRandom.uniformInt(0, currentIndex - 1);
+        var toRemoveIndex = StdRandom.uniformInt(0, currentIndex);
 
         var removed = queue[toRemoveIndex];
         queue[toRemoveIndex] = null;
@@ -72,6 +76,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (size() < (capacity / 4)) {
             scaleDownCapacity();
         }
+
+        count--;
 
         return removed;
     }
