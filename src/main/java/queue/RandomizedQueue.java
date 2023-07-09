@@ -123,12 +123,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
-        RandomizedQueue<Item> rq;
+        Item[] queue;
+        int currentIndex;
+
 
         // initialize pointer to head of the list for iteration
         public RandomizedQueueIterator(RandomizedQueue<Item> inRq)
         {
-            rq = new RandomizedQueue<>();
+            currentIndex = 0;
+            var rq = new RandomizedQueue<Item>();
 
             for (int i = 0; i < inRq.queue.length; i++) {
                 var item = inRq.queue[i];
@@ -136,12 +139,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 if (item != null)
                     rq.enqueue(item);
             }
+
+            queue = (Item[]) new Object[rq.count];
+            var index = 0;
+
+            while (!rq.isEmpty()) {
+                queue[index++] = rq.dequeue();
+            }
         }
 
         // returns false if next element does not exist
         public boolean hasNext()
         {
-            return !rq.isEmpty();
+            return currentIndex < queue.length;
         }
 
         // return current data and update pointer
@@ -150,7 +160,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if (!hasNext())
                 throw new NoSuchElementException();
 
-            return rq.dequeue();
+            return queue[currentIndex++];
         }
 
         // implement if needed
