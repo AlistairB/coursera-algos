@@ -8,6 +8,8 @@ import java.util.NoSuchElementException;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
+
+    private int[] populatedIndexes;
     private int capacity;
 
     private int count;
@@ -33,6 +35,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // add the item
     public void enqueue(Item item) {
+        if (item == null)
+            throw new IllegalArgumentException();
+
         if (currentIndex == capacity) {
             scaleUpCapacity();
         }
@@ -45,8 +50,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         var newCapacity = capacity * 2;
         var newQueue = (Item[]) new Object[newCapacity];
 
+        var insertIndex = 0;
         for (var i = 0; i < queue.length; i++) {
-            newQueue[i] = queue[i];
+            var toCopyItem = queue[i];
+
+            if (toCopyItem != null) {
+                newQueue[insertIndex++] = toCopyItem;
+            }
         }
 
         queue = newQueue;
@@ -57,8 +67,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         var newCapacity = capacity / 2;
         var newQueue = (Item[]) new Object[newCapacity];
 
+        var insertIndex = 0;
         for (var i = 0; i < queue.length; i++) {
-            newQueue[i] = queue[i];
+            var toCopyItem = queue[i];
+
+            if (toCopyItem != null) {
+                newQueue[insertIndex++] = toCopyItem;
+            }
         }
 
         queue = newQueue;
@@ -68,9 +83,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
+        if (size() == 0)
+            throw new NoSuchElementException();
+
         var toRemoveIndex = StdRandom.uniformInt(0, currentIndex);
 
         var removed = queue[toRemoveIndex];
+
+        if (removed == null)
+            return dequeue();
+
         queue[toRemoveIndex] = null;
 
         if (size() < (capacity / 4)) {
@@ -84,7 +106,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
-        var toGetIndex = StdRandom.uniformInt(0, size() - 1);
+        if (size() == 0)
+            throw new NoSuchElementException();
+
+        var toGetIndex = StdRandom.uniformInt(0, currentIndex);
+        var item = queue[toGetIndex];
+        if (item == null)
+            return sample();
 
         return queue[toGetIndex];
     }
