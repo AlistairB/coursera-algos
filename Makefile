@@ -5,3 +5,6 @@ percolation:
 
 queue:
 	./script/build.sh queue
+
+collinear:
+	./script/build.sh collinear
