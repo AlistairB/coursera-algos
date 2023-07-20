@@ -88,9 +88,23 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return null;
+        return new SlopeOrderComparator(this);
     }
 
+
+    public class SlopeOrderComparator implements Comparator<Point> {
+        Point rootPoint;
+
+        public SlopeOrderComparator(Point rootPoint) {
+            this.rootPoint = rootPoint;
+        }
+
+        @Override
+        public int compare(Point first, Point second) {
+            return 0;
+        }
+
+    }
 
     /**
      * Returns a string representation of this point.
