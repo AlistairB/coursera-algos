@@ -56,6 +56,8 @@ public class Point implements Comparable<Point> {
             return Double.NEGATIVE_INFINITY;
         else if (this.x == that.x)
             return Double.POSITIVE_INFINITY;
+        else if (this.y == that.y)
+            return 0;
         else
             return that.y - (double) this.y / that.x - this.x;
     }
@@ -73,6 +75,9 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
+        if (that == null)
+            throw new IllegalArgumentException();
+
         if (this.x < that.x) return -1;
         if (this.x > that.x) return 1;
         if (this.y < that.y) return -1;
@@ -92,7 +97,7 @@ public class Point implements Comparable<Point> {
     }
 
 
-    public class SlopeOrderComparator implements Comparator<Point> {
+    private class SlopeOrderComparator implements Comparator<Point> {
         Point rootPoint;
 
         public SlopeOrderComparator(Point rootPoint) {
@@ -101,9 +106,11 @@ public class Point implements Comparable<Point> {
 
         @Override
         public int compare(Point first, Point second) {
-            return 0;
-        }
+            if (first == null || second == null)
+                throw new IllegalArgumentException();
 
+            return Integer.compare(rootPoint.compareTo(first), rootPoint.compareTo(second));
+        }
     }
 
     /**
