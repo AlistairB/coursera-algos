@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class BruteCollinearPoints {
 
-    LineSegment[] segments;
+    private final LineSegment[] segments;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
@@ -21,14 +21,14 @@ public class BruteCollinearPoints {
                 for (int k = j + 1; k < points.length; k++) {
                     var point3 = points[k];
 
-                    if (point3.slopeTo(point2) != startingSlope) {
+                    if (point.slopeTo(point3) != startingSlope) {
                         continue;
                     }
 
                     for (int l = k + 1; l < points.length; l++) {
                         var point4 = points[l];
 
-                        if (point2.slopeTo(point4) == startingSlope) {
+                        if (point.slopeTo(point4) == startingSlope) {
                             var linePoints = new Point[]{point2, point3, point4};
 
                             Point biggestPoint = point;
@@ -55,7 +55,6 @@ public class BruteCollinearPoints {
 
         for (int k = 0; k < linkedListSegments.size(); k++) {
             segments[k] = linkedListSegments.removeFirst();
-
         }
     }
 

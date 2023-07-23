@@ -54,6 +54,13 @@ public class LineSegment {
         return p + " -> " + q;
     }
 
+    @Override
+    public boolean equals(Object s) {
+        var segment = (LineSegment) s;
+
+        return this.p.equals(segment.p) && this.q.equals(segment.q);
+    }
+
     /**
      * Throws an exception if called. The hashCode() method is not supported because
      * hashing has not yet been introduced in this course. Moreover, hashing does not
