@@ -6,43 +6,43 @@ public class BruteCollinearPoints {
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
-        segments = new LineSegment[];
+        segments = new LineSegment[100000];
 
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
 
-            for (int j = 1; j < points.length; j++) {
+            for (int j = i + 1; j < points.length; j++) {
                 var point2 = points[j];
 
                 var startingSlope = point.slopeTo(point2);
 
-                for (int k = 2; k < points.length; k++) {
+                for (int k = j + 1; k < points.length; k++) {
                     var point3 = points[k];
 
                     if (point3.slopeTo(point2) != startingSlope) {
                         continue;
                     }
 
-                    for (int l = 3; l < points.length; l++) {
+                    for (int l = k + 1; l < points.length; l++) {
                         var point4 = points[l];
 
                         if (point2.slopeTo(point4) == startingSlope) {
-                            Point biggestPoint;
-                            Point smallestPoint;
+                            var linePoints = new Point[]{point2, point3, point4};
 
-                            if (point.compareTo(point2) > 0) {
-                                biggestPoint = point;
-                                smallestPoint = point2;
-                            } else {
-                                biggestPoint = point2;
-                                smallestPoint = point;
+                            Point biggestPoint = point;
+                            Point smallestPoint = point;
+
+                            for (int m = 0; m < 3; m++) {
+                                var toCompare = linePoints[m];
+
+                                if (toCompare.compareTo(biggestPoint) > 0)
+                                    biggestPoint = toCompare;
+
+                                if (toCompare.compareTo(smallestPoint) < 0)
+                                    smallestPoint = toCompare;
                             }
 
-                            if (biggestPoint.compareTo(point3) > 0) {
-
-                            }
-
-
+                            segments[segments.length] = new LineSegment(smallestPoint, biggestPoint);
                         }
                     }
                 }
@@ -52,11 +52,11 @@ public class BruteCollinearPoints {
 
     // the number of line segments
     public int numberOfSegments() {
-        return 0;
+        return segments.length;
     }
 
     // the line segments
     public LineSegment[] segments() {
-        return null;
+        return segments;
     }
 }
