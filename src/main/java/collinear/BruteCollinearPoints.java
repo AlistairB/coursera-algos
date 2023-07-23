@@ -1,12 +1,14 @@
 package collinear;
 
+import java.util.LinkedList;
+
 public class BruteCollinearPoints {
 
     LineSegment[] segments;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
-        segments = new LineSegment[100000];
+        var linkedListSegments = new LinkedList<LineSegment>();
 
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
@@ -42,11 +44,18 @@ public class BruteCollinearPoints {
                                     smallestPoint = toCompare;
                             }
 
-                            segments[segments.length] = new LineSegment(smallestPoint, biggestPoint);
+                            linkedListSegments.add(new LineSegment(smallestPoint, biggestPoint));
                         }
                     }
                 }
             }
+        }
+
+        segments = new LineSegment[linkedListSegments.size()];
+
+        for (int k = 0; k < linkedListSegments.size(); k++) {
+            segments[k] = linkedListSegments.removeFirst();
+
         }
     }
 
