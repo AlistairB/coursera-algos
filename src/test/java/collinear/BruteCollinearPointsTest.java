@@ -40,4 +40,29 @@ class BruteCollinearPointsTest {
 
         assertArrayEquals(expected, brute.segments());
     }
+
+    @Test
+    void eight() {
+        var inputPoints = new Point[]{
+                new Point(10000 ,     0),
+                new Point(0,  10000),
+                new Point(3000,   7000),
+                new Point(7000,   3000),
+                new Point(20000,  21000),
+                new Point(3000,   4000),
+                new Point(14000,  15000),
+                new Point(6000,   7000),
+        };
+
+        var brute = new BruteCollinearPoints(inputPoints);
+
+        var expected = new LineSegment[]{
+            new LineSegment(new Point(10000,0), new Point(0,10000)),
+            new LineSegment(new Point(3000,4000), new Point(20000,21000)),
+        };
+
+        var actual = brute.segments();
+
+        assertArrayEquals(expected, actual);
+    }
 }

@@ -51,9 +51,10 @@ public class BruteCollinearPoints {
             }
         }
 
-        segments = new LineSegment[linkedListSegments.size()];
+        var count = linkedListSegments.size();
+        segments = new LineSegment[count];
 
-        for (int k = 0; k < linkedListSegments.size(); k++) {
+        for (int k = 0; k < count; k++) {
             segments[k] = linkedListSegments.removeFirst();
         }
     }
