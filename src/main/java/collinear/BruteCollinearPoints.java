@@ -8,13 +8,22 @@ public class BruteCollinearPoints {
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
+        if (points == null || points.length == 0)
+            throw new IllegalArgumentException();
+
         var linkedListSegments = new LinkedList<LineSegment>();
 
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
 
+            if (point == null)
+                throw new IllegalArgumentException();
+
             for (int j = i + 1; j < points.length; j++) {
                 var point2 = points[j];
+
+                if (point == point2)
+                    throw new IllegalArgumentException();
 
                 var startingSlope = point.slopeTo(point2);
 
@@ -25,8 +34,8 @@ public class BruteCollinearPoints {
                         continue;
                     }
 
-                    for (int l = k + 1; l < points.length; l++) {
-                        var point4 = points[l];
+                    for (int z = k + 1; z < points.length; z++) {
+                        var point4 = points[z];
 
                         if (point.slopeTo(point4) == startingSlope) {
                             var linePoints = new Point[]{point2, point3, point4};
@@ -66,6 +75,10 @@ public class BruteCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
-        return segments;
+        var newSegments = new LineSegment[segments.length];
+
+        System.arraycopy(segments, 0, newSegments, 0, segments.length);
+
+        return newSegments;
     }
 }
