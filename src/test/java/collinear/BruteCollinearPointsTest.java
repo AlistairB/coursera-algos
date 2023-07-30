@@ -65,4 +65,19 @@ class BruteCollinearPointsTest {
 
         assertArrayEquals(expected, actual);
     }
+
+    @Test
+    void duplicate() {
+        var inputPoints = new Point[]{
+                new Point(30196 ,     13179),
+                new Point(30009,  17252),
+                new Point(8532,   31244),
+                new Point(22609,   3316),
+                new Point(22609,  3316),
+        };
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new BruteCollinearPoints(inputPoints);
+        });
+    }
 }

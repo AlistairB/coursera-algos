@@ -1,5 +1,6 @@
 package collinear;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class BruteCollinearPoints {
@@ -22,13 +23,19 @@ public class BruteCollinearPoints {
             for (int j = i + 1; j < points.length; j++) {
                 var point2 = points[j];
 
-                if (point == point2)
+                if (point2 == null)
+                    throw new IllegalArgumentException();
+
+                if (point.equals(point2))
                     throw new IllegalArgumentException();
 
                 var startingSlope = point.slopeTo(point2);
 
                 for (int k = j + 1; k < points.length; k++) {
                     var point3 = points[k];
+
+                    if (point3 == null)
+                        throw new IllegalArgumentException();
 
                     if (point.slopeTo(point3) != startingSlope) {
                         continue;
@@ -37,23 +44,15 @@ public class BruteCollinearPoints {
                     for (int z = k + 1; z < points.length; z++) {
                         var point4 = points[z];
 
+                        if (point4 == null)
+                            throw new IllegalArgumentException();
+
                         if (point.slopeTo(point4) == startingSlope) {
-                            var linePoints = new Point[]{point2, point3, point4};
+                            var linePoints = new Point[]{point, point2, point3, point4};
 
-                            Point biggestPoint = point;
-                            Point smallestPoint = point;
+                            Arrays.sort(linePoints);
 
-                            for (int m = 0; m < 3; m++) {
-                                var toCompare = linePoints[m];
-
-                                if (toCompare.compareTo(biggestPoint) > 0)
-                                    biggestPoint = toCompare;
-
-                                if (toCompare.compareTo(smallestPoint) < 0)
-                                    smallestPoint = toCompare;
-                            }
-
-                            linkedListSegments.add(new LineSegment(smallestPoint, biggestPoint));
+                            linkedListSegments.add(new LineSegment(linePoints[0], linePoints[3]));
                         }
                     }
                 }
