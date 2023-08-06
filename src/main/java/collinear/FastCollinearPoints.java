@@ -19,7 +19,10 @@ public class FastCollinearPoints {
         public int compareTo(Object o) {
             var slopePoint = (SlopedPoint) o;
 
-            return Double.compare(this.slope, slopePoint.slope);
+            if (this.slope > slopePoint.slope) return 1;
+            if (this.slope < slopePoint.slope) return -1;
+
+            return this.point.compareTo(slopePoint.point);
         }
     }
 
