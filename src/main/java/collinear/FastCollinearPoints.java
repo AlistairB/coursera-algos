@@ -20,7 +20,6 @@ public class FastCollinearPoints {
             var slopePoint = (SlopedPoint) o;
 
             return Double.compare(this.slope, slopePoint.slope);
-
         }
     }
 
@@ -29,17 +28,21 @@ public class FastCollinearPoints {
         if (points == null || points.length == 0)
             throw new IllegalArgumentException();
 
-
-
-
         var linkedListSegments = new LinkedList<LineSegment>();
 
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
 
-            var slopes = new SlopedPoint[points.length - 1];
+            // as we skip the slope with itself, we minus a length off
+            var slopesLength = points.length - i - 1;
+            var slopes = new SlopedPoint[slopesLength];
+
+            var slopesIndex = 0;
 
             for (int j = i + 1; j < points.length; j++) {
+//                if (i == j)
+//                    continue;
+
                 var point2 = points[j];
 
                 if (point2 == null)
@@ -48,16 +51,35 @@ public class FastCollinearPoints {
                 if (point.equals(point2))
                     throw new IllegalArgumentException();
 
-                slopes[j] = new SlopedPoint(point2, point.slopeTo(point2));
+                slopes[slopesIndex++] = new SlopedPoint(point2, point.slopeTo(point2));
             }
 
             Arrays.sort(slopes);
 
             var matchingSlopeCount = 0;
-
-            // loop slopes adding if 4 or more in a row are the same
+            SlopedPoint lastPoint = null;
+            // loop slopes adding if 3 or more in a row are the same
             for (int k = 0; k < slopes.length; k++) {
-                
+                var currentPoint = slopes[k];
+
+                if (matchingSlopeCount == 0) {
+                    matchingSlopeCount++;
+                }
+                else if (currentPoint.slope == lastPoint.slope) {
+                    matchingSlopeCount++;
+
+                    // there is an edge case that on the last item it could be part of a segment
+                    // but we will not loop again to go into the else case to create the segment
+                    if (k == slopes.length - 1 && matchingSlopeCount >= 3) {
+                        linkedListSegments.add(new LineSegment(point, currentPoint.point));
+                        continue;
+                    }
+                } else if (matchingSlopeCount >= 3) {
+                    linkedListSegments.add(new LineSegment(point, lastPoint.point));
+                    matchingSlopeCount = 0;
+                }
+
+                lastPoint = currentPoint;
             }
         }
 
@@ -68,15 +90,6 @@ public class FastCollinearPoints {
             segments[k] = linkedListSegments.removeFirst();
         }
     }
-
-//    private LineSegment[] getLineSegments(SlopedPoint[] slopes) {
-//        var lineSegments :=
-//
-//        // loop slopes adding if 4 or more in a row are the same
-//        for (int k = 0; k < slopes.length; k++) {
-//
-//        }
-//    }
 
     // the number of line segments
     public int numberOfSegments() {
