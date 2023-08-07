@@ -68,6 +68,31 @@ class FastCollinearPointsTest {
     }
 
     @Test
+    void nine() {
+        var inputPoints = new Point[]{
+                new Point(9000 ,9000),
+                new Point(8000 ,8000),
+                new Point(7000 ,7000),
+                new Point(6000 ,6000),
+                new Point(5000 ,5000),
+                new Point(4000 ,4000),
+                new Point(3000 ,3000),
+                new Point(2000 ,2000),
+                new Point(1000 ,1000),
+        };
+
+        var brute = new FastCollinearPoints(inputPoints);
+
+        var expected = new LineSegment[]{
+                new LineSegment(new Point(1000,1000), new Point(9000,9000)),
+        };
+
+        var actual = brute.segments();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
     void duplicate() {
         var inputPoints = new Point[]{
                 new Point(30196 ,     13179),

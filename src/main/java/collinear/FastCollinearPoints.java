@@ -33,6 +33,8 @@ public class FastCollinearPoints {
 
         var linkedListSegments = new LinkedList<LineSegment>();
 
+        Arrays.sort(points);
+
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
 
