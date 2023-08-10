@@ -32,6 +32,9 @@ public class FastCollinearPoints {
             throw new IllegalArgumentException();
 
         var linkedListSegments = new LinkedList<LineSegment>();
+        var usedSlopeLength = (int) Math.pow(points.length, 2);
+        var usedSlopes = new double[usedSlopeLength];
+        var usedSlopeCount = 0;
 
         Arrays.sort(points);
 
@@ -56,7 +59,18 @@ public class FastCollinearPoints {
                 if (point.equals(point2))
                     throw new IllegalArgumentException();
 
-                slopes[slopesIndex++] = new SlopedPoint(point2, point.slopeTo(point2));
+                var slopeFromPoint = point.slopeTo(point2);
+                var slopeUsed = false;
+
+                for (int g = 0; g < usedSlopeLength; g++) {
+                    if (slopeFromPoint == usedSlopes[g]) {
+                        slopeUsed = true;
+                        break;
+                    }
+                }
+
+                if (!slopeUsed)
+                    slopes[slopesIndex++] = new SlopedPoint(point2, slopeFromPoint);
             }
 
             Arrays.sort(slopes);
@@ -76,10 +90,12 @@ public class FastCollinearPoints {
                     // there is an edge case that on the last item it could be part of a segment
                     // but we will not loop again to go into the else case to create the segment
                     if (k == slopes.length - 1 && matchingSlopeCount >= 3) {
+                        usedSlopes[usedSlopeCount++] = currentPoint.slope;
                         linkedListSegments.add(new LineSegment(point, currentPoint.point));
                         continue;
                     }
                 } else if (matchingSlopeCount >= 3) {
+                    usedSlopes[usedSlopeCount++] = currentPoint.slope;
                     linkedListSegments.add(new LineSegment(point, lastPoint.point));
                     matchingSlopeCount = 0;
                 }
