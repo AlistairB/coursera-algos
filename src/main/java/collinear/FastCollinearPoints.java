@@ -1,6 +1,7 @@
 package collinear;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class FastCollinearPoints {
@@ -44,7 +45,6 @@ public class FastCollinearPoints {
             // as we skip the slope with itself, we minus a length off
             var slopesLength = points.length - i - 1;
             var slopes = new SlopedPoint[slopesLength];
-
             var slopesIndex = 0;
 
             for (int j = i + 1; j < points.length; j++) {
@@ -73,13 +73,31 @@ public class FastCollinearPoints {
                     slopes[slopesIndex++] = new SlopedPoint(point2, slopeFromPoint);
             }
 
-            Arrays.sort(slopes);
+            if (slopesIndex == 0)
+                continue;
+
+            Arrays.sort(slopes, new Comparator<SlopedPoint>() {
+                @Override
+                public int compare(SlopedPoint o1, SlopedPoint o2) {
+                    if (o1 == null && o2 == null) {
+                        return 0;
+                    }
+                    if (o1 == null) {
+                        return 1;
+                    }
+                    if (o2 == null) {
+                        return -1;
+                    }
+                    return o1.compareTo(o2);
+                }});
 
             var matchingSlopeCount = 0;
             SlopedPoint lastPoint = null;
             // loop slopes adding if 3 or more in a row are the same
-            for (int k = 0; k < slopes.length; k++) {
+            for (int k = 0; k < slopesIndex; k++) {
                 var currentPoint = slopes[k];
+
+//                if (currentPoint == null) break;
 
                 if (matchingSlopeCount == 0) {
                     matchingSlopeCount++;
