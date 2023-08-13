@@ -35,7 +35,6 @@ public class FastCollinearPoints {
         var linkedListSegments = new LinkedList<LineSegment>();
         var usedSlopeLength = (int) Math.pow(points.length, 2);
         var usedSlopes = new SlopedPoint[usedSlopeLength];
-//        var usedEndPoints = new Point[usedSlopeLength];
         var usedSlopeCount = 0;
 
         Arrays.sort(points);
@@ -61,10 +60,8 @@ public class FastCollinearPoints {
                     throw new IllegalArgumentException();
 
                 var slopeFromPoint = point.slopeTo(point2);
-                var slopeUsed = false;
 
-                if (!slopeUsed)
-                    slopes[slopesIndex++] = new SlopedPoint(point2, slopeFromPoint);
+                slopes[slopesIndex++] = new SlopedPoint(point2, slopeFromPoint);
             }
 
             if (slopesIndex == 0)
@@ -104,15 +101,16 @@ public class FastCollinearPoints {
                             usedSlopes[usedSlopeCount++] = currentPoint;
                             linkedListSegments.add(new LineSegment(point, currentPoint.point));
                         }
-
-                        continue;
                     }
                 } else if (matchingSlopeCount >= 3) {
                     if (!slopedPointUsed(usedSlopes, currentPoint)) {
                         usedSlopes[usedSlopeCount++] = lastPoint;
                         linkedListSegments.add(new LineSegment(point, lastPoint.point));
-                        matchingSlopeCount = 0;
+                        // we start at 1 in this case as we count the current point as a new slope start
+                        matchingSlopeCount = 1;
                     }
+                } else {
+                    matchingSlopeCount = 1;
                 }
 
                 lastPoint = currentPoint;

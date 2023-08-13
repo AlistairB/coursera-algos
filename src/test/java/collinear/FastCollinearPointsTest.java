@@ -91,8 +91,8 @@ class FastCollinearPointsTest {
 
         var expected = new LineSegment[]{
                 new LineSegment(new Point(10000,0), new Point(0,10000)),
-                new LineSegment(new Point(10000,0), new Point(30000,0)), // missing
-                new LineSegment(new Point(13000,0), new Point(5000,12000)),
+                new LineSegment(new Point(10000,0), new Point(30000,0)),
+                new LineSegment(new Point(13000,0), new Point(5000,12000)), // missing
                 new LineSegment(new Point(30000,0), new Point(0,30000)),
         };
 
@@ -100,6 +100,40 @@ class FastCollinearPointsTest {
 
         assertArrayEquals(expected, actual);
     }
+
+//    @Test
+//    void play() {
+//        var inputPoints = new Point[]{
+//                new Point(10000, 0),
+//                new Point(8000, 2000),
+////                new Point(2000, 8000),
+//                new Point(0,  10000),
+//                new Point(20000, 0),
+//                new Point(18000, 2000),
+//                new Point(2000, 18000),
+//                new Point(10000, 20000),
+//                new Point(30000, 0),
+//                new Point(0, 30000),
+//                new Point(20000, 10000),
+//                new Point(13000, 0),
+////                new Point(11000, 3000),
+////                new Point(5000, 12000),
+////                new Point(9000, 6000),
+//        };
+//
+//        var brute = new FastCollinearPoints(inputPoints);
+//
+//        var expected = new LineSegment[]{
+////                new LineSegment(new Point(10000,0), new Point(0,10000)),
+//                new LineSegment(new Point(10000,0), new Point(30000,0)), // missing
+////                new LineSegment(new Point(13000,0), new Point(5000,12000)),
+////                new LineSegment(new Point(30000,0), new Point(0,30000)),
+//        };
+//
+//        var actual = brute.segments();
+//
+//        assertArrayEquals(expected, actual);
+//    }
 
     @Test
     void nine() {
