@@ -125,15 +125,15 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
-//    @Override
-//    public boolean equals(Object object) {
-//        if (object == null)
-//            return false;
-//
-//        var point = (Point) object;
-//
-//        return this.x == point.x && this.y == point.y;
-//    }
+    @Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+
+        var point = (Point) object;
+
+        return this.x == point.x && this.y == point.y;
+    }
 
     /**
      * Unit tests the Point data type.

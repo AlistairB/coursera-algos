@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class FastCollinearPoints {
     private final LineSegment[] segments;
 
-    private class SlopedPoint implements Comparable {
+    private static class SlopedPoint implements Comparable<SlopedPoint> {
         Point point;
         double slope;
 
@@ -17,13 +17,11 @@ public class FastCollinearPoints {
         }
 
         @Override
-        public int compareTo(Object o) {
-            var slopePoint = (SlopedPoint) o;
+        public int compareTo(SlopedPoint slopedPoint) {
+            if (this.slope > slopedPoint.slope) return 1;
+            if (this.slope < slopedPoint.slope) return -1;
 
-            if (this.slope > slopePoint.slope) return 1;
-            if (this.slope < slopePoint.slope) return -1;
-
-            return this.point.compareTo(slopePoint.point);
+            return this.point.compareTo(slopedPoint.point);
         }
     }
 
