@@ -101,6 +101,45 @@ class BruteCollinearPointsTest {
     }
 
     @Test
+    void twenty() {
+        var inputPoints = new Point[]{
+                new Point(4096, 20992),
+                new Point(5120, 20992),
+                new Point(6144, 20992),
+                new Point(7168, 20992),
+                new Point(8128, 20992),
+                new Point(4096, 22016),
+                new Point(4096, 23040),
+                new Point(4096, 24064),
+                new Point(4096, 25088),
+                new Point(5120, 25088),
+                new Point(7168, 25088),
+                new Point(8192, 25088),
+                new Point(8192, 26112),
+                new Point(8192, 27136),
+                new Point(8192, 28160),
+                new Point(8192, 29184),
+                new Point(4160, 29184),
+                new Point(5120, 29184),
+                new Point(6144, 29184),
+                new Point(7168, 29184),
+        };
+
+        var brute = new BruteCollinearPoints(inputPoints);
+
+        var expected = new LineSegment[]{
+                new LineSegment(new Point(10000,0), new Point(0,10000)),
+                new LineSegment(new Point(10000,0), new Point(30000,0)),
+                new LineSegment(new Point(30000,0), new Point(0,30000)),
+                new LineSegment(new Point(13000,0), new Point(5000,12000)),
+        };
+
+        var actual = brute.segments();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
     void duplicate() {
         var inputPoints = new Point[]{
                 new Point(30196 ,     13179),

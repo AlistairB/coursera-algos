@@ -96,19 +96,20 @@ public class FastCollinearPoints {
 
                     // there is an edge case that on the last item it could be part of a segment
                     // but we will not loop again to go into the else case to create the segment
-                    if (k == slopes.length - 1 && matchingSlopeCount >= 3) {
+                    if (k == slopesIndex - 1 && matchingSlopeCount >= 3) {
                         if (!slopedPointUsed(usedSlopes, currentPoint)) {
                             usedSlopes[usedSlopeCount++] = currentPoint;
                             linkedListSegments.add(new LineSegment(point, currentPoint.point));
                         }
                     }
                 } else if (matchingSlopeCount >= 3) {
-                    if (!slopedPointUsed(usedSlopes, currentPoint)) {
+                    if (!slopedPointUsed(usedSlopes, lastPoint)) {
                         usedSlopes[usedSlopeCount++] = lastPoint;
                         linkedListSegments.add(new LineSegment(point, lastPoint.point));
-                        // we start at 1 in this case as we count the current point as a new slope start
-                        matchingSlopeCount = 1;
                     }
+
+                    // we start at 1 in this case as we count the current point as a new slope start
+                    matchingSlopeCount = 1;
                 } else {
                     matchingSlopeCount = 1;
                 }
