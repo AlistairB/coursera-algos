@@ -26,9 +26,11 @@ public class FastCollinearPoints {
     }
 
     // finds all line segments containing 4 or more points
-    public FastCollinearPoints(Point[] points) {
-        if (points == null || points.length == 0)
+    public FastCollinearPoints(Point[] inputPoints) {
+        if (inputPoints == null || inputPoints.length == 0)
             throw new IllegalArgumentException();
+
+        var points = Arrays.copyOf(inputPoints, inputPoints.length);
 
         var linkedListSegments = new LinkedList<LineSegment>();
         var usedSlopeLength = (int) Math.pow(points.length, 2);
@@ -40,14 +42,15 @@ public class FastCollinearPoints {
         for (int i = 0; i < points.length; i++) {
             var point = points[i];
 
+            if (point == null)
+                throw new IllegalArgumentException();
+
             // as we skip the slope with itself, we minus a length off
             var slopesLength = points.length - i - 1;
             var slopes = new SlopedPoint[slopesLength];
             var slopesIndex = 0;
 
             for (int j = i + 1; j < points.length; j++) {
-//                if (i == j)
-//                    continue;
 
                 var point2 = points[j];
 
