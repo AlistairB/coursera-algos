@@ -25,6 +25,25 @@ class FastCollinearPointsTest {
         assertArrayEquals(expected, brute.segments());
     }
 
+//    @Test
+//    void nullEntires() {
+//        var inputPoints = new Point[]{
+//                null,
+//                new Point(1,1),
+//                new Point(2,2),
+//                new Point(3,3),
+//                new Point(4,4),
+//        };
+//
+//        var brute = new FastCollinearPoints(inputPoints);
+//
+//        var expected = new LineSegment[]{
+//                new LineSegment(new Point(1, 1), new Point(4,4))
+//        };
+//
+//        assertArrayEquals(expected, brute.segments());
+//    }
+
     @Test
     void shouldFail() {
         var inputPoints = new Point[]{

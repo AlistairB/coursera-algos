@@ -3,7 +3,6 @@ package collinear;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
 
 public class FastCollinearPoints {
     private ArrayList<LineSegment> segments;
@@ -19,8 +18,10 @@ public class FastCollinearPoints {
 
         @Override
         public int compareTo(SlopedPoint slopedPoint) {
-            if (this.slope > slopedPoint.slope) return 1;
-            if (this.slope < slopedPoint.slope) return -1;
+            var result = Double.compare(this.slope, slopedPoint.slope);
+
+            if (result != 0)
+                return result;
 
             return this.point.compareTo(slopedPoint.point);
         }
