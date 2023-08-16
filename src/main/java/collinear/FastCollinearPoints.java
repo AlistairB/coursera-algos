@@ -1,11 +1,12 @@
 package collinear;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 
 public class FastCollinearPoints {
-    private final LineSegment[] segments;
+    private ArrayList<LineSegment> segments;
 
     private static class SlopedPoint implements Comparable<SlopedPoint> {
         Point point;
@@ -30,12 +31,11 @@ public class FastCollinearPoints {
         if (inputPoints == null || inputPoints.length == 0)
             throw new IllegalArgumentException();
 
+        segments = new ArrayList<>();
+
         var points = Arrays.copyOf(inputPoints, inputPoints.length);
 
-        var linkedListSegments = new LinkedList<LineSegment>();
-        var usedSlopeLength = (int) Math.pow(points.length, 2);
-        var usedSlopes = new SlopedPoint[usedSlopeLength];
-        var usedSlopeCount = 0;
+        var usedSlopes = new ArrayList<SlopedPoint>();
 
         Arrays.sort(points);
 
@@ -99,14 +99,14 @@ public class FastCollinearPoints {
                     // but we will not loop again to go into the else case to create the segment
                     if (k == slopesIndex - 1 && matchingSlopeCount >= 3) {
                         if (!slopedPointUsed(usedSlopes, currentPoint)) {
-                            usedSlopes[usedSlopeCount++] = currentPoint;
-                            linkedListSegments.add(new LineSegment(point, currentPoint.point));
+                            usedSlopes.add(currentPoint);
+                            segments.add(new LineSegment(point, currentPoint.point));
                         }
                     }
                 } else if (matchingSlopeCount >= 3) {
                     if (!slopedPointUsed(usedSlopes, lastPoint)) {
-                        usedSlopes[usedSlopeCount++] = lastPoint;
-                        linkedListSegments.add(new LineSegment(point, lastPoint.point));
+                        usedSlopes.add(lastPoint);
+                        segments.add(new LineSegment(point, lastPoint.point));
                     }
 
                     // we start at 1 in this case as we count the current point as a new slope start
@@ -118,24 +118,11 @@ public class FastCollinearPoints {
                 lastPoint = currentPoint;
             }
         }
-
-        var count = linkedListSegments.size();
-        segments = new LineSegment[count];
-
-        for (int k = 0; k < count; k++) {
-            segments[k] = linkedListSegments.removeFirst();
-        }
     }
 
-    private boolean slopedPointUsed(SlopedPoint[] usedSlopePoints, SlopedPoint slopedPoint) {
-        for (int g = 0; g < usedSlopePoints.length; g++) {
-            var usedSlope = usedSlopePoints[g];
-
-            if (usedSlope == null) {
-                return false;
-            }
-
-            if (usedSlopePoints[g].compareTo(slopedPoint) == 0) {
+    private boolean slopedPointUsed(ArrayList<SlopedPoint> usedSlopePoints, SlopedPoint slopedPoint) {
+        for (SlopedPoint usedSlope : usedSlopePoints) {
+            if (usedSlope.compareTo(slopedPoint) == 0) {
                 return true;
             }
         }
@@ -145,15 +132,11 @@ public class FastCollinearPoints {
 
     // the number of line segments
     public int numberOfSegments() {
-        return segments.length;
+        return segments.size();
     }
 
     // the line segments
     public LineSegment[] segments() {
-        var newSegments = new LineSegment[segments.length];
-
-        System.arraycopy(segments, 0, newSegments, 0, segments.length);
-
-        return newSegments;
+        return segments.toArray(new LineSegment[0]);
     }
 }
