@@ -1,5 +1,7 @@
 package eightpuzzle;
 
+// https://coursera.cs.princeton.edu/algs4/assignments/8puzzle/specification.php
+
 public class Board {
 
     // create a board from an n-by-n array of tiles,
