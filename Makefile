@@ -8,3 +8,6 @@ queue:
 
 collinear:
 	./script/build.sh collinear
+
+eightpuzzle:
+	./script/build.sh eightpuzzle
