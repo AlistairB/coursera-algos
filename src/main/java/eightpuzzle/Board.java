@@ -64,13 +64,31 @@ public class Board {
             }
         }
 
-
         return hamming;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        return 0;
+        int numRows = tiles.length;
+        int numCols = tiles[0].length; // Assuming all rows have the same number of columns
+        int manhattan = 0;
+
+        // Iterate through the 2D array using nested loops
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                int element = tiles[row][col];
+                if (element == 0)
+                    continue;
+
+                int correctRow = element % dimension();
+                int correctCol = element - 1;
+
+                manhattan += Math.abs(row - correctRow) + Math.abs(col - correctCol);
+            }
+        }
+
+        return manhattan;
+
     }
 
     // is this board the goal board?
