@@ -58,7 +58,7 @@ public class Board {
                 if (element == 0)
                     continue;
 
-                int desired = (row + 1) * (col + 1);
+                int desired = (row * dimension()) + (col + 1);
                 if (element != desired)
                     hamming++;
             }
@@ -81,14 +81,15 @@ public class Board {
                     continue;
 
                 int correctRow = element % dimension();
-                int correctCol = element - 1;
+                int correctCol = (element % dimension()) - 1;
+                int rowGap = Math.abs(row - correctRow);
+                int colGap = Math.abs(col - correctCol);
 
-                manhattan += Math.abs(row - correctRow) + Math.abs(col - correctCol);
+                manhattan += rowGap + colGap;
             }
         }
 
         return manhattan;
-
     }
 
     // is this board the goal board?
