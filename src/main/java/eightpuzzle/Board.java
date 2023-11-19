@@ -80,8 +80,8 @@ public class Board {
                 if (element == 0)
                     continue;
 
-                int correctRow = element % dimension();
-                int correctCol = (element % dimension()) - 1;
+                int correctRow = element / dimension();
+                int correctCol = ((element - 1) % dimension());
                 int rowGap = Math.abs(row - correctRow);
                 int colGap = Math.abs(col - correctCol);
 
