@@ -92,9 +92,33 @@ public class Board {
         return manhattan;
     }
 
+//    private boolean isCorrectPos(int x, int y, int value) {
+//
+//    }
+
     // is this board the goal board?
     public boolean isGoal() {
-        return false;
+        int numRows = tiles.length;
+        int numCols = tiles[0].length; // Assuming all rows have the same number of columns
+
+        int currentExpected = 1;
+
+        // Iterate through the 2D array using nested loops
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                int element = tiles[row][col];
+
+                // if we get the blank tile, it must only be in the last row and col
+                if (element == 0) {
+                    return (row == numRows - 1 && col == numCols - 1);
+                }
+
+                if (element != currentExpected++)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     // does this board equal y?
