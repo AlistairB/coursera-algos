@@ -4,6 +4,8 @@ package eightpuzzle;
 
 import edu.princeton.cs.algs4.StdOut;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
@@ -135,6 +137,48 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
+        // find 0
+        int zeroRow = 0;
+        int zeroCol = 0;
+
+        int numRows = tiles.length;
+        int numCols = tiles[0].length; // Assuming all rows have the same number of columns
+
+        int currentExpected = 1;
+
+        // Iterate through the 2D array using nested loops
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                int element = tiles[row][col];
+
+                if (element == 0) {
+                    zeroRow = row;
+                    zeroCol = col;
+                }
+            }
+        }
+
+        var neighbourBoards = new ArrayList<Board>();
+
+        // look for 0 -> right board
+        if (zeroCol < numCols - 1) {
+            int[][] rightMoveArray = Arrays.copyOf(tiles, tiles.length);
+
+            // move the piece to the right of the 0 into the 0 spot
+            rightMoveArray[zeroRow][zeroCol] = rightMoveArray[zeroRow][zeroCol + 1];
+            // then set that piece to 0
+            rightMoveArray[zeroRow][zeroCol + 1] = 0;
+
+            neighbourBoards.add(new Board(rightMoveArray));
+        }
+
+        // look for 0 -> left board
+
+        // look for 0 -> up board
+
+        // look for 0 -> down board
+
+
         return null;
     }
 
