@@ -4,6 +4,8 @@ package eightpuzzle;
 
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
+
 public class Board {
 
     // create a board from an n-by-n array of tiles,
@@ -123,7 +125,12 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return false;
+        if (this == y) return true;
+        if (y == null || getClass() != y.getClass()) return false;
+
+        Board yBoard = (Board) y;
+
+        return Arrays.deepEquals(yBoard.tiles, this.tiles);
     }
 
     // all neighboring boards
