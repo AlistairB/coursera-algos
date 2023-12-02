@@ -2,7 +2,11 @@ package eightpuzzle;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 public class BoardTest {
 
@@ -72,5 +76,40 @@ public class BoardTest {
         var expected = false;
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void neighbors() {
+        int[][] inputTiles = {
+                {1, 0, 3},
+                {4, 2, 5},
+                {7, 8, 6}
+        };
+
+        var board = new Board(inputTiles);
+
+        var actual = board.neighbors();
+
+        int[][] expected1 = {
+                {1, 3, 0},
+                {4, 2, 5},
+                {7, 8, 6}
+        };
+
+        int[][] expected2 = {
+                {0, 1, 3},
+                {4, 2, 5},
+                {7, 8, 6}
+        };
+
+        int[][] expected3 = {
+                {1, 2, 3},
+                {4, 0, 5},
+                {7, 8, 6}
+        };
+
+        var expected = Arrays.asList(new Board(expected1), new Board(expected2), new Board(expected3));
+
+        assertIterableEquals(expected, actual);
     }
 }
