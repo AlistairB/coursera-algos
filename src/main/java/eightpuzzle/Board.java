@@ -144,8 +144,6 @@ public class Board {
         int numRows = tiles.length;
         int numCols = tiles[0].length; // Assuming all rows have the same number of columns
 
-        int currentExpected = 1;
-
         // Iterate through the 2D array using nested loops
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -162,7 +160,7 @@ public class Board {
 
         // look for 0 -> right board
         if (zeroCol < numCols - 1) {
-            int[][] rightMoveArray = Arrays.copyOf(tiles, tiles.length);
+            int[][] rightMoveArray = deepCopy(tiles);
 
             // move the piece to the right of the 0 into the 0 spot
             rightMoveArray[zeroRow][zeroCol] = rightMoveArray[zeroRow][zeroCol + 1];
@@ -173,13 +171,57 @@ public class Board {
         }
 
         // look for 0 -> left board
+        if (zeroCol > 0) {
+            int[][] leftMoveArray = deepCopy(tiles);
+
+            // move the piece to the left of the 0 into the 0 spot
+            leftMoveArray[zeroRow][zeroCol] = leftMoveArray[zeroRow][zeroCol - 1];
+            // then set that piece to 0
+            leftMoveArray[zeroRow][zeroCol - 1] = 0;
+
+            neighbourBoards.add(new Board(leftMoveArray));
+        }
 
         // look for 0 -> up board
+        if (zeroRow > 0) {
+            int[][] upMoveArray = deepCopy(tiles);
+
+            // move the piece to the left of the 0 into the 0 spot
+            upMoveArray[zeroRow][zeroCol] = upMoveArray[zeroRow - 1][zeroCol];
+            // then set that piece to 0
+            upMoveArray[zeroRow - 1][zeroCol] = 0;
+
+            neighbourBoards.add(new Board(upMoveArray));
+        }
 
         // look for 0 -> down board
+        if (zeroRow < numRows - 1) {
+            int[][] downMoveArray = deepCopy(tiles);
+
+            // move the piece to the left of the 0 into the 0 spot
+            downMoveArray[zeroRow][zeroCol] = downMoveArray[zeroRow + 1][zeroCol];
+            // then set that piece to 0
+            downMoveArray[zeroRow + 1][zeroCol] = 0;
+
+            neighbourBoards.add(new Board(downMoveArray));
+        }
 
 
-        return null;
+        return neighbourBoards;
+    }
+
+    private int[][] deepCopy(int[][] original) {
+        if (original == null) {
+            return null;
+        }
+
+        int[][] copy = new int[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            // Ensure that the nested arrays are also copied
+            copy[i] = Arrays.copyOf(original[i], original[i].length);
+        }
+
+        return copy;
     }
 
     // a board that is obtained by exchanging any pair of tiles
