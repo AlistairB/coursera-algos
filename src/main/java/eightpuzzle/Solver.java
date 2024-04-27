@@ -1,9 +1,20 @@
 package eightpuzzle;
 
+import edu.princeton.cs.algs4.MinPQ;
+
 public class Solver {
+    private final MinPQ<Board> boardPq;
+
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
+        this.boardPq = new MinPQ<>();
 
+        // add initial
+        boardPq.insert(initial);
+
+        // del min
+
+        // add neighbours
     }
 
     // is the initial board solvable? (see below)
@@ -21,7 +32,7 @@ public class Solver {
         return null;
     }
 
-    // test client (see below)
+    // test client (see below)3
     public static void main(String[] args) {
         
     }
