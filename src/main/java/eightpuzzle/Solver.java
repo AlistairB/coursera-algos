@@ -12,9 +12,23 @@ public class Solver {
         // add initial
         boardPq.insert(initial);
 
-        // del min
+        Board minBoard;
 
-        // add neighbours
+        while (true) {
+            // del min
+            minBoard = boardPq.delMin();
+
+            if (minBoard.isGoal()) {
+                break;
+            }
+
+            // add neighbours
+            var neighbours = minBoard.neighbors();
+
+            for (var neighbour : neighbours) {
+                boardPq.insert(neighbour);
+            }
+        }
     }
 
     // is the initial board solvable? (see below)
