@@ -7,8 +7,9 @@ import edu.princeton.cs.algs4.StdOut;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
-public class Board {
+public class Board implements Comparable<Board> {
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
@@ -234,4 +235,11 @@ public class Board {
 
     }
 
+    @Override
+    public int compareTo(Board that) {
+        if (that == null)
+            throw new IllegalArgumentException();
+
+        return Integer.compare(this.manhattan(), that.manhattan());
+    }
 }

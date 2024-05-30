@@ -19,7 +19,6 @@ public class Solver {
 
         // add initial
         boardPq.insert(initial);
-        solution.add(initial);
 
         Board minBoard;
 
@@ -27,12 +26,13 @@ public class Solver {
             // del min
             minBoard = boardPq.delMin();
 
+            solution.add(minBoard);
+
             if (minBoard.isGoal()) {
                 break;
             }
 
             moves++;
-            solution.add(minBoard);
 
             // add neighbours
             var neighbours = minBoard.neighbors();
