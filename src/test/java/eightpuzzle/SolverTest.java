@@ -67,4 +67,41 @@ public class SolverTest {
         assertEquals(expectedMoves, solver.moves());
         assertEquals(expectedSolutionBoards, solver.solution());
     }
+
+    @Test
+    void twoStepsToSolution() {
+        int[][] inputTiles = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {0, 7, 8}
+        };
+
+        var board = new Board(inputTiles);
+
+        var solver = new Solver(board);
+
+        var expectedSolvable = true;
+        var expectedMoves = 2;
+        var expectedSolutionBoards = List.of(
+                new Board(new int[][]{
+                        {1, 2, 3},
+                        {4, 5, 6},
+                        {0, 7, 8}
+                }),
+                new Board(new int[][]{
+                        {1, 2, 3},
+                        {4, 5, 6},
+                        {7, 0, 8}
+                }),
+                new Board(new int[][]{
+                        {1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 0}
+                })
+        );
+
+        assertEquals(expectedSolvable, solver.isSolvable());
+        assertEquals(expectedMoves, solver.moves());
+        assertEquals(expectedSolutionBoards, solver.solution());
+    }
 }
