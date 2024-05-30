@@ -1,5 +1,6 @@
 package eightpuzzle;
 
+import edu.princeton.cs.algs4.BinaryOut;
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Solver {
 
         Board minBoard;
 
+        Board previousMin = initial;
+
         while (true) {
             // del min
             minBoard = boardPq.delMin();
@@ -38,8 +41,12 @@ public class Solver {
             var neighbours = minBoard.neighbors();
 
             for (var neighbour : neighbours) {
-                boardPq.insert(neighbour);
+                // don't re-add the root of the previous min board
+                if (!neighbour.equals(previousMin))
+                    boardPq.insert(neighbour);
             }
+
+            previousMin = minBoard;
         }
     }
 

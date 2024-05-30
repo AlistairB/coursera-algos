@@ -13,13 +13,17 @@ public class Board implements Comparable<Board> {
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
-    private int[][] tiles;
+    private final int[][] tiles;
+    private final int hamming;
+    private final int manhattan;
 
     // Constructor.  
     // You may assume that the constructor receives an n-by-n array containing the n2 integers between 0 and n2 − 1, where 0 represents the blank square. 
     // You may also assume that 2 ≤ n < 128.
     public Board(int[][] tiles) {
         this.tiles = tiles;
+        this.hamming = calcHamming();
+        this.manhattan = calcManhattan();
     }
 
     // string representation of this board The toString() method returns a string composed of n + 1 lines. 
@@ -51,7 +55,10 @@ public class Board implements Comparable<Board> {
 
     // number of tiles out of place
     public int hamming() {
+        return this.hamming;
+    }
 
+    private int calcHamming() {
         int numRows = tiles.length;
         int numCols = tiles[0].length; // Assuming all rows have the same number of columns
         int hamming = 0;
@@ -74,6 +81,10 @@ public class Board implements Comparable<Board> {
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
+        return this.manhattan;
+    }
+
+    private int calcManhattan() {
         int numRows = tiles.length;
         int numCols = tiles[0].length; // Assuming all rows have the same number of columns
         int manhattan = 0;
