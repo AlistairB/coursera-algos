@@ -4,10 +4,8 @@ package eightpuzzle;
 
 import edu.princeton.cs.algs4.StdOut;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class Board implements Comparable<Board> {
 

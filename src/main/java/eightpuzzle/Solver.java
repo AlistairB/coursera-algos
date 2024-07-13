@@ -1,6 +1,5 @@
 package eightpuzzle;
 
-import edu.princeton.cs.algs4.BinaryOut;
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class Solver {
         boardPq.insert(initial);
 
         Board minBoard;
-
         Board previousMin = initial;
 
         while (true) {
@@ -49,6 +47,8 @@ public class Solver {
             previousMin = minBoard;
         }
     }
+
+    // WORKING HERE
 
     // is the initial board solvable? (see below)
     public boolean isSolvable() {
